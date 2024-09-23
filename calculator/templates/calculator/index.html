@@ -12,7 +12,14 @@
 <body>
     <div class="calculator">
         <input type="text" id="display" class="display" readonly>
+        <div class=" backbuttons" >
+            <button class="btn top" onclick="clearDisplay()">C</button>
+            <button class="btn" onclick="appendToDisplay('(')">(</button>
+            <button class="btn" onclick="appendToDisplay(')')">)</button>
+            <button class="btn top" onclick="backspace()">⌫</button>
+            </div>
         <div class="buttons">
+
             <button class="btn" onclick="appendToDisplay('7')">7</button>
             <button class="btn" onclick="appendToDisplay('8')">8</button>
             <button class="btn" onclick="appendToDisplay('9')">9</button>
@@ -30,10 +37,16 @@
 
             <button class="btn" onclick="appendToDisplay('0')">0</button>
             <button class="btn" onclick="appendToDisplay('.')">.</button>
-            <button class="btn" onclick="clearDisplay()">C</button>
             <button class="btn operator" onclick="appendToDisplay('+')">+</button>
-
             <button class="btn equal" onclick="calculate()">=</button>
+           
+
+            
+            
+            
+
+            
+            
         </div>
     </div>
 
@@ -52,8 +65,20 @@
             document.getElementById('display').value = '';
         }
 
+        function backspace() {
+        let display = document.getElementById('display').value;
+        document.getElementById('display').value = display.slice(0, -1);
+        }
+
+
         function calculate() {
             let expression = document.getElementById('display').value;
+
+            if (expression.trim() === '') {
+            document.getElementById('display').value = 'Invalid';
+            return;
+            }
+
 
             $.post('/calculate/', {'expression': expression}, function(data) {
                 if (data.error) {
